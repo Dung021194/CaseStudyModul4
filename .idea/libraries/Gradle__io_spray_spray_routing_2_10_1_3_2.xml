@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: io.spray:spray-routing_2.10:1.3.2">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.spray/spray-routing_2.10/1.3.2/b8693c1f937c2caf077ed538cd394efa1c9f635f/spray-routing_2.10-1.3.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.spray/spray-routing_2.10/1.3.2/6d6a1be635879d792f6a0f1ee202647208b6c6e9/spray-routing_2.10-1.3.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

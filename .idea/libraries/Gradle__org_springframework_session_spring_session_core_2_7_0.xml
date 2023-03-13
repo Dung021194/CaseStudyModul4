@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.springframework.session:spring-session-core:2.7.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.session/spring-session-core/2.7.0/367dc88d1c57bdedbbc0ac662e80a4f2daa3fceb/spring-session-core-2.7.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.session/spring-session-core/2.7.0/fb4e38c0c03ddc80dc2fd607ceeaef4e7390305d/spring-session-core-2.7.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
