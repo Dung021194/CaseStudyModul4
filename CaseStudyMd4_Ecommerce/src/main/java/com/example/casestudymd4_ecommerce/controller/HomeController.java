@@ -16,7 +16,7 @@ import org.springframework.data.web.PageableDefault;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/home")
+@RequestMapping("git/home")
 public class HomeController {
     @Autowired
     private IProductService iProductService;
