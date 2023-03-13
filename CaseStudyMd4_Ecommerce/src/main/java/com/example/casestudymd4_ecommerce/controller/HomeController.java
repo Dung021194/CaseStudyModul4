@@ -29,7 +29,7 @@ public class HomeController {
         Page<Shop> shops = iShopService.findAllPage(pageable,"");
         return new ResponseEntity<>(shops, HttpStatus.OK);
     }
-    @PutMapping("/banOwner")
-    public ResponseEntity<Shop> banOwner(@PathVariable Long id){
-    }
+//    @PutMapping("/banOwner")
+//    public ResponseEntity<Shop> banOwner(@PathVariable Long id){
+//    }
 }

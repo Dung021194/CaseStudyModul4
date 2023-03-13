@@ -34,4 +34,9 @@ public class ShopServiceImpl implements IShopService {
         shopRepo.deleteById(id);
 
     }
+
+    @Override
+    public Page<Shop> findAllPage(Pageable pageable, String name) {
+        return null;
+    }
 }
