@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: com.softwaremill.akka-http-session:jwt_2.12:0.7.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.softwaremill.akka-http-session/jwt_2.12/0.7.0/76b0f740e2945fb8d0cd95f829f1a119a7dadaea/jwt_2.12-0.7.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.softwaremill.akka-http-session/jwt_2.12/0.7.0/5377e9701fd9858b051fcf0e0956af7c55e58930/jwt_2.12-0.7.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: io.github.gonguasp:jwt:1.0.2">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.github.gonguasp/jwt/1.0.2/f6ae530ca870c691311dcc5af997842d39ab4c3d/jwt-1.0.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.github.gonguasp/jwt/1.0.2/ec422240e1a6655410a11e3bc6b83511205c0194/jwt-1.0.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

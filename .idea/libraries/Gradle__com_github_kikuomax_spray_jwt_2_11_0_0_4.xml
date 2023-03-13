@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: com.github.kikuomax:spray-jwt_2.11:0.0.4">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.kikuomax/spray-jwt_2.11/0.0.4/56fdc28d80d3c7b41781c48a7bc1d6d4cf08f06f/spray-jwt_2.11-0.0.4.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.kikuomax/spray-jwt_2.11/0.0.4/6fc4bef89e44b61d8cfb208cae022e1d45d0fa66/spray-jwt_2.11-0.0.4-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

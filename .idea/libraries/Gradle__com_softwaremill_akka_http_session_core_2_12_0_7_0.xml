@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: com.softwaremill.akka-http-session:core_2.12:0.7.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.softwaremill.akka-http-session/core_2.12/0.7.0/d5789f581ef5651a9dfd746d602fd5a153105f60/core_2.12-0.7.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.softwaremill.akka-http-session/core_2.12/0.7.0/84cf3c3cc3e687b3964d382fb797eaab0d984f39/core_2.12-0.7.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
