@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -38,6 +39,7 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         Set<Role> set = new HashSet<>();
         set.add(roleService.findOne(2L));
         user.setRoles(set);
+        user.setStatus(true);
         userRepo.save(user);
     }
 
@@ -58,6 +60,17 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
     }
 
     @Override
+    public Boolean checkUsernameExists(String name) {
+        List<User> list = userRepo.findAll();
+        for (User u:list) {
+            if (u.getUsername().equals(name)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<User> userOptional = userRepo.findByUsername(username);
         if (!userOptional.isPresent()) {
@@ -65,4 +78,5 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         }
         return UserPrinciple.build(userOptional.get());
     }
+
 }

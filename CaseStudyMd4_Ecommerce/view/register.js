@@ -38,25 +38,16 @@ function register() {
                 'Content-Type': 'application/json'
             },
             type: "POST",
-            url: "http://localhost:8005/api/register",
+            url: "http://localhost:8080/api/register",
             data: JSON.stringify(user),
             success: function (data) {
                 sessionStorage.setItem("token", data.accessToken)
                 window.location.href = "login.html"
+            },
+            error: function () {
+                alert(" Username is exist, choose another username ")
             }
         })
     }
     event.preventDefault();
-}
-function createError(errorMessage) {
-    let error = document.createElement("div");
-    error.classList.add("error");
-    error.innerText = errorMessage;
-    return error;
-}
-
-function showError(error) {
-    let form = document.getElementById("my-form");
-    let submitButton = form.querySelector("button[type='submit']");
-    form.insertBefore(error, submitButton);
 }

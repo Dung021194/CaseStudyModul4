@@ -37,6 +37,6 @@ public class ShopServiceImpl implements IShopService {
 
     @Override
     public Page<Shop> findAllPage(Pageable pageable, String name) {
-        return shopRepo.findAllPage(pageable,name);
+        return null;
     }
 }
