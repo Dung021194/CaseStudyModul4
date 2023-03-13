@@ -5,6 +5,8 @@ import com.example.casestudymd4_ecommerce.model.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.Optional;
+
 public interface IProductService extends ICOREService<Product> {
     Page<Product> findAll(Pageable pageable);
 
