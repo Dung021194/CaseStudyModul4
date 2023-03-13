@@ -1,10 +1,8 @@
 package com.example.casestudymd4_ecommerce.controller;
-import com.example.casestudymd4_ecommerce.model.Product;
 import com.example.casestudymd4_ecommerce.model.Shop;
 import com.example.casestudymd4_ecommerce.service.IProductService;
 import com.example.casestudymd4_ecommerce.service.IShopService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
