@@ -41,8 +41,8 @@ public class HomeController {
         return new ResponseEntity<>(shops, HttpStatus.OK);
     }
 
-    @PutMapping("/banUser")
-    public ResponseEntity<User> banUser(@RequestParam Long id) {
+    @PutMapping("/banUser/{id}")
+    public ResponseEntity<User> banUser(@PathVariable Long id) {
         User user = userService.findOne(id);
         user.setStatus(false);
         userService.save(user);
@@ -61,9 +61,10 @@ public class HomeController {
         productService.deleteProductByQuantity(shop.getProductsMap());
         return new ResponseEntity<>(HttpStatus.OK);
     }
-    @GetMapping("/showShopProduct")
+    @GetMapping("/showShopProduct/{id}")
     public ResponseEntity<Map<Product,Integer>> showShopProduct(@PathVariable Long id){
-        User user = userService.findOne(id);
+        Shop shop = shopService.findShopByUser(id);
+        return new ResponseEntity<>(shop.getProductsMap(),HttpStatus.OK);
     }
 }
 

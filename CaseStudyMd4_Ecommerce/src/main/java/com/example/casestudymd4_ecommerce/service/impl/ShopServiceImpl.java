@@ -42,6 +42,6 @@ public class ShopServiceImpl implements IShopService {
 
     @Override
     public Shop findShopByUser(Long id) {
-        return null;
+        return shopRepo.findShopByUserId(id);
     }
 }
