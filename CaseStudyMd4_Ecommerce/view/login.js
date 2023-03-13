@@ -33,6 +33,7 @@ function login() {
             success: function (data) {
                 sessionStorage.setItem("token", data.accessToken);
                 window.location.href = "index.html";
+
             },
             error: function () {
                 alert("Tên đăng nhập hoặc mật khẩu không chính xác.")
