@@ -20,6 +20,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 
+import java.util.Map;
+
 @RestController
 @CrossOrigin("*")
 @RequestMapping("/home")
@@ -58,6 +60,10 @@ public class HomeController {
         Shop shop = shopService.findOne(id);
         productService.deleteProductByQuantity(shop.getProductsMap());
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+    @GetMapping("/showShopProduct")
+    public ResponseEntity<Map<Product,Integer>> showShopProduct(@PathVariable Long id){
+        User user = userService.findOne(id);
     }
 }
 

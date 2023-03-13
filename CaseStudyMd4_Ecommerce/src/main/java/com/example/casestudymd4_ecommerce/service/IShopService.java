@@ -9,4 +9,5 @@ import org.springframework.data.domain.Pageable;
 public interface IShopService extends ICOREService<Shop>{
     Page<Shop> findAllPage(Pageable pageable, String name);
 
+    Shop findShopByUser(Long id);
 }
