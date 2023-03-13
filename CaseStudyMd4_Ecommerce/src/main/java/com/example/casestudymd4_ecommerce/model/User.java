@@ -27,4 +27,5 @@ private Double balance;
 private Boolean status;
 @ManyToMany(fetch = FetchType.EAGER)
 private Set<Role> roles;
+
 }
