@@ -1,9 +1,9 @@
-package com.example.shop_manager.controller;
+package com.example.casestudymd4_ecommerce.controller;
 
-import com.example.shop_manager.model.User;
-import com.example.shop_manager.security.jwt.JwtResponse;
-import com.example.shop_manager.security.jwt.JwtService;
-import com.example.shop_manager.service.impl.UserServiceImpl;
+import com.example.casestudymd4_ecommerce.model.User;
+import com.example.casestudymd4_ecommerce.security.jwt.JwtResponse;
+import com.example.casestudymd4_ecommerce.security.jwt.JwtService;
+import com.example.casestudymd4_ecommerce.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
