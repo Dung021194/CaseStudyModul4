@@ -13,6 +13,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Service
 public class ProductServiceImpl implements IProductService {
@@ -65,5 +69,15 @@ public class ProductServiceImpl implements IProductService {
             ex.printStackTrace();
         }
         return fileName;
+    }
+
+    public void deleteProductByQuantity(Map<Product,Integer> map){
+        Set<Product> set = map.keySet();
+        for (Product p:set){
+            if(map.get(p)==0){
+                map.remove(p);
+            }
+        }
+
     }
 }
