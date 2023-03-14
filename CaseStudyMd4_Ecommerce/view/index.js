@@ -6,7 +6,7 @@ function getAllProducts() {
         type: "GET",
         url: "http://localhost:8080/product",
         success: function (data) {
-            displayCustomer(data)
+            displayProduct(data)
         }
     });
 }
