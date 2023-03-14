@@ -33,6 +33,7 @@ function login() {
             success: function (data) {
                 sessionStorage.setItem("token", data.accessToken);
                 window.location.href = "index.html";
+
             },
             error: function(xhr, status, error) {
                 // Xử lý khi có lỗi xảy ra
