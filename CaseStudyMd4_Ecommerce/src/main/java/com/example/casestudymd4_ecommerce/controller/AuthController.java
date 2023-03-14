@@ -45,11 +45,11 @@ public class AuthController {
                } catch (Exception e) {
                    // Xử lý khi tài khoản không hợp lệ
                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("{\"error\": \"Invalid username or password\"}");
-
                }
            }
+            return ResponseEntity.status(HttpStatus.LOCKED).body("{\"error\": \"This user has been locked\"}");
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\": \"This user has been locked\"}");
+        return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body("{\"error\": \"Error, please try again \"}");
     }
     @PostMapping("/register")
     public ResponseEntity<Void> Register(@RequestBody User user){
@@ -60,6 +60,11 @@ public class AuthController {
         }
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
-
-
+    @PostMapping("logout")
+    public ResponseEntity<Void> logout(@RequestBody User user) {
+        SecurityContextHolder.clearContext();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        authentication.setAuthenticated(false);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
 }
