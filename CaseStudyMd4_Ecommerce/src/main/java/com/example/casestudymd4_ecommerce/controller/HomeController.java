@@ -66,5 +66,6 @@ public class HomeController {
         Shop shop = shopService.findShopByUser(id);
         return new ResponseEntity<>(shop.getProductsMap(),HttpStatus.OK);
     }
+
 }
 
