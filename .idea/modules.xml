@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/CaseStudyMd4_Ecommerce.iml" filepath="$PROJECT_DIR$/.idea/modules/CaseStudyMd4_Ecommerce.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/CaseStudyMd4_Ecommerce.main.iml" filepath="$PROJECT_DIR$/.idea/modules/CaseStudyMd4_Ecommerce.main.iml" />
     </modules>
   </component>

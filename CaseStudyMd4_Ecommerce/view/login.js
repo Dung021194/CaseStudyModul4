@@ -33,9 +33,21 @@ function login() {
             success: function (data) {
                 sessionStorage.setItem("token", data.accessToken);
                 window.location.href = "index.html";
+
             },
-            error: function () {
-                alert("Tên đăng nhập hoặc mật khẩu không chính xác.")
+            error: function(xhr, status, error) {
+                // Xử lý khi có lỗi xảy ra
+                if (xhr.status == 400) {
+                    // Xử lý khi tài khoản đã bị khóa
+                    var errorResponse = JSON.parse(xhr.responseText);
+                    alert(errorResponse.error);
+                } else if (xhr.status == 423) {
+                    var errorResponse = JSON.parse(xhr.responseText);
+                    alert(errorResponse.error);
+                } else {
+                    // Xử lý khi có lỗi xảy ra khác
+                    alert("An error occurred: " + error);
+                }
             }
         });
     }

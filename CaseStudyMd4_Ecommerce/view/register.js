@@ -43,6 +43,7 @@ function register() {
             success: function (data) {
                 sessionStorage.setItem("token", data.accessToken)
                 window.location.href = "login.html"
+
             },
             error: function () {
                 alert(" Username is exist, choose another username ")
