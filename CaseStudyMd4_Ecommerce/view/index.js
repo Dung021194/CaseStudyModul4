@@ -1,9 +1,12 @@
-function showAllOwner(){
+function getAllProducts() {
     $.ajax({
-        url: "http://localhost:8080/home/shops",
+        headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("token"),
+        },
         type: "GET",
-        success(data){
-
+        url: "http://localhost:8080/product",
+        success: function (data) {
+            displayCustomer(data)
         }
-    })
+    });
 }
