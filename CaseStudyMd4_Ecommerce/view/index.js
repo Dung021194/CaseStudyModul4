@@ -9,4 +9,5 @@ function getAllProducts() {
             displayProduct(data)
         }
     });
+    
 }
