@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IShopRepo extends JpaRepository<Shop,Long> {
-    Page<Shop> findAllPage(Pageable pageable, String name);
+    Page<Shop> findAllBy(Pageable pageable, String name);
     @Query(value = "SELECT s from Shop s where s.account.id = :id")
     Shop findShopByUserId(@Param( "id") Long id);
 }
