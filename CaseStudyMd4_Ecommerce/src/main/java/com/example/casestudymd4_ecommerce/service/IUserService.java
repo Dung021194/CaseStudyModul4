@@ -9,4 +9,5 @@ import java.util.Optional;
 public interface IUserService extends ICOREService<User>{
     Page<User> findAll(Pageable pageable);
     Optional<User> findByUsername(String username);
+    Boolean checkUsernameExists(String name);
 }

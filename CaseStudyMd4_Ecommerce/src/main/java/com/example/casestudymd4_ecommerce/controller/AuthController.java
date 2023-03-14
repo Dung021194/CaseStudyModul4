@@ -30,19 +30,34 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody User user) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
+        User user1 = userService.findByUsername(user.getUsername()).orElse(null);
+        if (user1 != null) {
+           if (user1.getStatus()) {
+               try {
+                   Authentication authentication = authenticationManager.authenticate(
+                           new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
+                   SecurityContextHolder.getContext().setAuthentication(authentication);
+                   String jwt = jwtService.generateTokenLogin(authentication);
+                   UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+                   User currentUser = userService.findByUsername(user.getUsername()).get();
+                   return ResponseEntity.ok(new JwtResponse(jwt, currentUser.getId(), userDetails.getUsername(),
+                           currentUser.getUsername(), userDetails.getAuthorities()));
+               } catch (Exception e) {
+                   // Xử lý khi tài khoản không hợp lệ
+                   return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("{\"error\": \"Invalid username or password\"}");
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        String jwt = jwtService.generateTokenLogin(authentication);
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        User currentUser = userService.findByUsername(user.getUsername()).get();
-        return ResponseEntity.ok(new JwtResponse(jwt, currentUser.getId(), userDetails.getUsername(), currentUser.getUsername(), userDetails.getAuthorities()));
+               }
+           }
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\": \"This user has been locked\"}");
     }
     @PostMapping("/register")
     public ResponseEntity<Void> Register(@RequestBody User user){
-        userService.save(user);
+        if (!userService.checkUsernameExists(user.getUsername())){
+            userService.save(user);
+        }else {
+            return new ResponseEntity<>((HttpStatus.BAD_REQUEST));
+        }
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 

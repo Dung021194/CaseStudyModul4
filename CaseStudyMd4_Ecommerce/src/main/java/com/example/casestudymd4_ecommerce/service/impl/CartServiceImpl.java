@@ -1,12 +1,15 @@
 package com.example.casestudymd4_ecommerce.service.impl;
 
 import com.example.casestudymd4_ecommerce.model.Cart;
+import com.example.casestudymd4_ecommerce.model.Product;
 import com.example.casestudymd4_ecommerce.repository.ICartRepo;
 import com.example.casestudymd4_ecommerce.service.ICartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 @Service
 public class CartServiceImpl implements ICartService {
@@ -33,6 +36,12 @@ public class CartServiceImpl implements ICartService {
     @Override
     public void delete(Long id) {
         cartRepo.deleteById(id);
+
+    }
+
+    @Override
+    public void saveCartMap(Map<Product, Long> cartMap) {
+        cartRepo.save(cartMap);
 
     }
 }
