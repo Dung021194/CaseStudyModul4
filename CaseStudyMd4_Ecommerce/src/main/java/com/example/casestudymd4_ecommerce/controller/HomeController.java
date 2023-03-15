@@ -1,11 +1,13 @@
 package com.example.casestudymd4_ecommerce.controller;
 
+import com.example.casestudymd4_ecommerce.model.Category;
 import com.example.casestudymd4_ecommerce.model.Product;
 import com.example.casestudymd4_ecommerce.model.Shop;
 import com.example.casestudymd4_ecommerce.model.User;
 import com.example.casestudymd4_ecommerce.service.IProductService;
 import com.example.casestudymd4_ecommerce.service.IShopService;
 import com.example.casestudymd4_ecommerce.service.IUserService;
+import com.example.casestudymd4_ecommerce.service.impl.CategoryServiceImpl;
 import com.example.casestudymd4_ecommerce.service.impl.ProductServiceImpl;
 import com.example.casestudymd4_ecommerce.service.impl.ShopServiceImpl;
 import com.example.casestudymd4_ecommerce.service.impl.UserServiceImpl;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -36,12 +39,14 @@ public class HomeController {
     private ProductServiceImpl productService;
     @Autowired
     private ShopServiceImpl shopService;
+    @Autowired
+    private CategoryServiceImpl categoryService;
 
     @GetMapping("/shops")
     public ResponseEntity<Page<Shop>> showOwner(@PageableDefault(size = 5)
                                                 @SortDefault.SortDefaults({@SortDefault(sort = "name", direction = Sort.Direction.ASC)})
                                                 Pageable pageable) {
-        Page<Shop> shops = shopService.findAllPage(pageable, "");
+        Page<Shop> shops = shopService.findAll(pageable);
         return new ResponseEntity<>(shops, HttpStatus.OK);
     }
 
@@ -54,23 +59,40 @@ public class HomeController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> save(@RequestBody Product product) {
+    public ResponseEntity<Void> save(@RequestPart(value = "file", required = false) MultipartFile file,
+                                     @RequestPart("product") Product product) {
+        product.setImage(file);
         productService.save(product);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteByQuantity (@PathVariable Long id){
-        Shop shop = shopService.findOne(id);
-        productService.deleteProductByQuantity(shop.getId());
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
+//    @DeleteMapping("/{id}")
+//    public ResponseEntity<Void> deleteByQuantity (@PathVariable Long id){
+//        Shop shop = shopService.findOne(id);
+//        productService.deleteProductByQuantity(shop.getId());
+//        return new ResponseEntity<>(HttpStatus.OK);
+//    }
     @GetMapping()
-    public ResponseEntity<Page<Product>> showShopProduct(@PageableDefault Pageable pageable){
-//        HttpSession session = request.getSession();
-//        Long id = (Long) session.getAttribute("userId");
+    public ResponseEntity<Page<Product>> showShopProduct(@PageableDefault Pageable pageable,HttpServletRequest request){
+        HttpSession session = request.getSession();
+        Long id = (Long) session.getAttribute("userId");
         Page<Product> products = productService.findALlProductByShop(pageable,1L);
         return new ResponseEntity<>(products,HttpStatus.OK);
+    }
+    @GetMapping("/categories")
+    public ResponseEntity<Page<Category>> getCategory(@PageableDefault(size = 5) Pageable pageable){
+        return new ResponseEntity<>(categoryService.findAll(pageable),HttpStatus.ACCEPTED);
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<Product> updateForm(@PathVariable Long id){
+        Product product = productService.findOne(id);
+        return new ResponseEntity<>(product,HttpStatus.OK);
+
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteProduct(@PathVariable Long id){
+        productService.delete(id);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 }
 

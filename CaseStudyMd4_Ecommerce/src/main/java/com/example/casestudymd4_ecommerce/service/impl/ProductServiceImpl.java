@@ -50,7 +50,7 @@ public class ProductServiceImpl implements IProductService {
     @Override
     public void save(Product product) {
         if (product.getImage()!=null){
-            product.setImagePath(getFileName(product));
+            product.setImagePath(displayPath+getFileName(product));
         }else {
             if (product.getImagePath().equals("")){
                 product.setImagePath(displayPath + "avatar.jpg");
