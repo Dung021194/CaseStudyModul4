@@ -94,5 +94,6 @@ public class HomeController {
         productService.delete(id);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
+
 }
 
