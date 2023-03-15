@@ -1,12 +1,15 @@
 package com.example.casestudymd4_ecommerce.service.impl;
 
 import com.example.casestudymd4_ecommerce.model.Product;
+import com.example.casestudymd4_ecommerce.model.Shop;
 import com.example.casestudymd4_ecommerce.repository.IProductRepo;
+import com.example.casestudymd4_ecommerce.repository.IShopRepo;
 import com.example.casestudymd4_ecommerce.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,6 +29,8 @@ public class ProductServiceImpl implements IProductService {
     private String displayPath;
     @Autowired
     IProductRepo productRepo;
+    @Autowired
+    IShopRepo shopRepo;
 
     @Override
     public Page<Product> findAllPage(Pageable pageable, String name) {
@@ -71,13 +76,11 @@ public class ProductServiceImpl implements IProductService {
         return fileName;
     }
 
-    public void deleteProductByQuantity(Map<Product,Integer> map){
-        Set<Product> set = map.keySet();
-        for (Product p:set){
-            if(map.get(p)==0){
-                map.remove(p);
-            }
-        }
-
+    public void deleteProductByQuantity(Long id){
+                productRepo.deleteProductByQuantity(id);
+    }
+    public Page<Product> findALlProductByShop(Pageable pageable, Long id){
+        Shop shop = shopRepo.findShopByUserId(id);
+        return productRepo.findAllProductByShop(pageable,shop.getId());
     }
 }
