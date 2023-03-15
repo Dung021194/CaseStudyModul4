@@ -320,7 +320,7 @@ jQuery(document).ready(function($)
     		$('.product-grid').isotope({
     			itemSelector: '.product-item',
 	            getSortData: {
-	            	price: function(itemElement)
+	            	prices: function(itemElement)
 	            	{
 	            		var priceEle = $(itemElement).find('.product_price').text().replace( '$', '' );
 	            		return parseFloat(priceEle);
