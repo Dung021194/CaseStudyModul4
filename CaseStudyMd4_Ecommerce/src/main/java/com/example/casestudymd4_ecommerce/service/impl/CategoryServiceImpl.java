@@ -8,6 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 
 public class CategoryServiceImpl implements ICategoryService {
@@ -31,4 +33,5 @@ public class CategoryServiceImpl implements ICategoryService {
     public void delete(Long id) {
         categoryRepo.deleteById(id);
     }
+
 }
