@@ -34,7 +34,7 @@ public class HomeController {
     private ShopServiceImpl shopService;
 
     @GetMapping("/shops")
-    public ResponseEntity<Page<Shop>> showOwner(@PageableDefault(size = 5)
+    public ResponseEntity<Page<Shop>> showOwner(@PageableDefault(size = 6)
                                                 @SortDefault.SortDefaults({@SortDefault(sort = "name", direction = Sort.Direction.ASC)})
                                                 Pageable pageable) {
         Page<Shop> shops = shopService.findAllPage(pageable, "");
@@ -65,6 +65,13 @@ public class HomeController {
     public ResponseEntity<Map<Product,Integer>> showShopProduct(@PathVariable Long id){
         Shop shop = shopService.findShopByUser(id);
         return new ResponseEntity<>(shop.getProductsMap(),HttpStatus.OK);
+    }
+    @GetMapping("/products")
+    public ResponseEntity<Page<Product>> findAllProducts(@PageableDefault(size = 5)
+                                                         @SortDefault.SortDefaults({@SortDefault(sort = "name", direction = Sort.Direction.ASC)})
+                                                         Pageable pageable) {
+        Page<Product> products = productService.findAll(pageable);
+        return new ResponseEntity<>(products,HttpStatus.OK);
     }
 
 }

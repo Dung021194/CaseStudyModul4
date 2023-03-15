@@ -1,8 +1,11 @@
 package com.example.casestudymd4_ecommerce.controller;
 
+import com.example.casestudymd4_ecommerce.model.Role;
 import com.example.casestudymd4_ecommerce.model.User;
 import com.example.casestudymd4_ecommerce.security.jwt.JwtResponse;
 import com.example.casestudymd4_ecommerce.security.jwt.JwtService;
+import com.example.casestudymd4_ecommerce.service.IRoleService;
+import com.example.casestudymd4_ecommerce.service.IUserService;
 import com.example.casestudymd4_ecommerce.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,6 +17,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
 
 @Controller
 @CrossOrigin("*")
@@ -27,6 +34,10 @@ public class AuthController {
 
     @Autowired
     private UserServiceImpl userService;
+    @Autowired
+    private IUserService iUserService;
+    @Autowired
+    private IRoleService iRoleService;
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody User user) {
@@ -52,14 +63,26 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body("{\"error\": \"Error, please try again \"}");
     }
     @PostMapping("/register")
-    public ResponseEntity<Void> Register(@RequestBody User user){
-        if (!userService.checkUsernameExists(user.getUsername())){
+    public ResponseEntity<Void> Register(@RequestBody User user, @RequestParam(value = "role_id", required = false) String roleIdStr) {
+        if (!userService.checkUsernameExists(user.getUsername())) {
+            Set<Role> roles = new HashSet<>();
+            Role role = null;
+            Long roleId = null;
+            if (roleIdStr != null && !roleIdStr.trim().isEmpty()) {
+                roleId = Long.parseLong(roleIdStr.replaceAll("L",""));
+            } else {
+                roleId = 3L;
+            }
+            role = iRoleService.findOne(roleId);
+            roles.add(role);
+            user.setRoles(roles);
             userService.save(user);
-        }else {
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        } else {
             return new ResponseEntity<>((HttpStatus.BAD_REQUEST));
         }
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
+
     @PostMapping("logout")
     public ResponseEntity<Void> logout(@RequestBody User user) {
         SecurityContextHolder.clearContext();
@@ -67,4 +90,5 @@ public class AuthController {
         authentication.setAuthenticated(false);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
+
 }
