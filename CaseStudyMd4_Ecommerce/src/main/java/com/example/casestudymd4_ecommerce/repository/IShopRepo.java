@@ -10,9 +10,9 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IShopRepo extends JpaRepository<Shop,Long> {
-    @Query(value = "SELECT s from Shop s where s.account.username like : name")
+    @Query(value = "SELECT s from Shop s where s.user.username like : name")
     Page<Shop> findAllShopByUserName(Pageable pageable, String name);
 
-    @Query(value = "SELECT s from Shop s where s.account.id = :id")
+    @Query(value = "SELECT s from Shop s where s.user.id = :id")
     Shop findShopByUserId(@Param( "id") Long id);
 }

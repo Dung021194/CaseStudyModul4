@@ -31,6 +31,7 @@ function login() {
             url: "http://localhost:8080/api/login",
             data: JSON.stringify(user),
             success: function (data) {
+                sessionStorage.setItem("usernameDisplay",username)
                 sessionStorage.setItem("token", data.accessToken);
                 window.location.href = "index.html";
             },

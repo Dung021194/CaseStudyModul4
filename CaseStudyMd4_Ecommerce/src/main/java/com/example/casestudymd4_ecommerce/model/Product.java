@@ -21,6 +21,7 @@ public class Product {
     private String name;
     private Double price;
     private String description;
+    private Long quantity;
     private String imagePath;
     @Transient
     private MultipartFile image;

@@ -1,0 +1,123 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap CRUD Data Table for Database with Modal Form</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        img{
+            width: 200px;
+            height: 120px;
+        }
+    </style>
+    <script src="owner.js"></script>
+
+<body onload="getAllProduct(0)">
+<div class="container">
+    <div class="table-wrapper">
+        <div class="table-title">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h2>Manage <b>Product</b></h2>
+                </div>
+                <div class="col-sm-6">
+                    <a href="#addProductModal" class="btn btn-success"  data-toggle="modal"><i class="material-icons">&#xE147;</i> <button style="border: none" class="btn btn-success" onclick="createForm()">Add New Product</button></a>
+                </div>
+            </div>
+        </div>
+        <div id="list_product"></div>
+        <div id="page"></div>
+</div>
+</div>
+<!-- Edit Modal HTML -->
+<div id="addProductModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+                <div class="modal-header">
+                    <h4>Add product</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input id="name" type="text" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Price</label>
+                        <input id="price" type="text" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea id="description" class="form-control" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Quantity</label>
+                        <input id="quantity" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Image</label>
+                        <input id="file" type="file" class="form-control" required>
+                    </div>
+                    <div class="form-group" onload="getCategories()">
+                        <label>Category</label>
+                        <div id="cate"></div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                    <label><input class="btn btn-success" data-dismiss="modal" aria-hidden="true" onclick="createP()" value="Add"/></label>
+                </div>
+        </div>
+    </div>
+</div>
+<div id="formUpdate">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+        <h1 >Update Product</h1>
+        <div class="mb-3 mt-3">
+            <label for="name" class="form-label">Name:</label>
+            <input type="text" class="form-control" id="nameUpdate">
+        </div>
+        <div class="mb-3 mt-3">
+            <label for="price" class="form-label">Price:</label>
+            <input type="text" class="form-control" id="priceUpdate">
+        </div>
+                <div id = "shopId" hidden="hidden"></div>
+                <div id = "imagePath" hidden="hidden"></div>
+        <div class="mb-3 mt-3">
+            <label>Description</label>
+            <textarea id="descriptionUpdate" class="form-control" required></textarea>
+        </div>
+        <div class="mb-3 mt-3">
+            <label for="quantity" class="form-label">Quantity:</label>
+            <input type="text" class="form-control" id="quantityUpdate">
+        </div>
+        <div class="mb-3 mt-3">
+            <label for="file" class="form-label">Image:</label>
+            <input type="file" required class="form-control" id="fileUpdate">
+        </div>
+        <div class="form-group" onload="getCategories()">
+            <label>Category</label>
+            <div id="cateUpdate"></div>
+        </div>
+        <div class="mb-3 mt-3">
+            <button onclick="update()" class="btn btn-primary">Update</button>
+            <button class="btn btn-primary" onclick = back()>Back</button>
+        </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
