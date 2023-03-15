@@ -20,7 +20,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @RestController
 @CrossOrigin("*")
@@ -58,13 +62,15 @@ public class HomeController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteByQuantity (@PathVariable Long id){
         Shop shop = shopService.findOne(id);
-        productService.deleteProductByQuantity(shop.getProductsMap());
+        productService.deleteProductByQuantity(shop.getId());
         return new ResponseEntity<>(HttpStatus.OK);
     }
-    @GetMapping("/showShopProduct/{id}")
-    public ResponseEntity<Map<Product,Integer>> showShopProduct(@PathVariable Long id){
-        Shop shop = shopService.findShopByUser(id);
-        return new ResponseEntity<>(shop.getProductsMap(),HttpStatus.OK);
+    @GetMapping()
+    public ResponseEntity<Page<Product>> showShopProduct(@PageableDefault Pageable pageable){
+//        HttpSession session = request.getSession();
+//        Long id = (Long) session.getAttribute("userId");
+        Page<Product> products = productService.findALlProductByShop(pageable,1L);
+        return new ResponseEntity<>(products,HttpStatus.OK);
     }
 }
 
