@@ -18,6 +18,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -40,13 +42,14 @@ public class AuthController {
     private IRoleService iRoleService;
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody User user) {
+    public ResponseEntity<?> login(@RequestBody User user, HttpServletRequest request) {
         User user1 = userService.findByUsername(user.getUsername()).orElse(null);
+        HttpSession session = request.getSession();
         if (user1 != null) {
            if (user1.getStatus()) {
                try {
-
-
+                   session.setAttribute("usernameDisplay",user1.getUsername());
+                   session.setAttribute("userId",user1.getId());
                    Authentication authentication = authenticationManager.authenticate(
                            new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
                    SecurityContextHolder.getContext().setAuthentication(authentication);
