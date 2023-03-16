@@ -86,15 +86,4 @@ public class AuthController {
             return new ResponseEntity<>((HttpStatus.BAD_REQUEST));
         }
     }
-
-    @PostMapping("logout")
-    public ResponseEntity<Void> logout(@RequestBody User user, HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        session.removeAttribute("usernameDisplay");
-        SecurityContextHolder.clearContext();
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        authentication.setAuthenticated(false);
-        return ResponseEntity.status(HttpStatus.OK).build();
-    }
-
 }
