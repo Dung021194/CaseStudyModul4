@@ -18,6 +18,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -40,11 +42,13 @@ public class AuthController {
     private IRoleService iRoleService;
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody User user) {
+    public ResponseEntity<?> login(@RequestBody User user, HttpServletRequest request) {
+        HttpSession session = request.getSession();
         User user1 = userService.findByUsername(user.getUsername()).orElse(null);
         if (user1 != null) {
            if (user1.getStatus()) {
                try {
+                   session.setAttribute("usernameDisplay",user1.getUsername());
                    Authentication authentication = authenticationManager.authenticate(
                            new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
                    SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -82,13 +86,4 @@ public class AuthController {
             return new ResponseEntity<>((HttpStatus.BAD_REQUEST));
         }
     }
-
-    @PostMapping("logout")
-    public ResponseEntity<Void> logout(@RequestBody User user) {
-        SecurityContextHolder.clearContext();
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        authentication.setAuthenticated(false);
-        return ResponseEntity.status(HttpStatus.OK).build();
-    }
-
 }

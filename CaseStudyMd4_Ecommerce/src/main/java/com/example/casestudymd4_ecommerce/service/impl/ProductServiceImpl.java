@@ -76,9 +76,9 @@ public class ProductServiceImpl implements IProductService {
         return fileName;
     }
 
-    public void deleteProductByQuantity(Long id){
-                productRepo.deleteProductByQuantity(id);
-    }
+//    public void deleteProductByQuantity(Long id){
+//                productRepo.deleteProductByQuantity(id);
+//    }
     public Page<Product> findALlProductByShop(Pageable pageable, Long id){
         Shop shop = shopRepo.findShopByUserId(id);
         return productRepo.findAllProductByShop(pageable,shop.getId());
