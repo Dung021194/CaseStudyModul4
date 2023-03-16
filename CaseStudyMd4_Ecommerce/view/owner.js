@@ -1,5 +1,7 @@
 let arr;
+let arrVoucherProduct;
 window.onload = getCategories();
+window.onload=getProductVoucher();
 function displayProduct(data) {
     let content = `<table class="table table-striped"><tr><th>Name</th><th>Price</th>
                     <th>Quantity</th><th>Description</th><th>Image</th><th>Category</th><th colspan="2">Action</th></tr>`;
@@ -137,6 +139,7 @@ function updateForm(id) {
 function back() {
     $("#formUpdate").hide()
     $("#list_product").show()
+    $("#list_voucher").hide()
     $("#page").show()
     event.preventDefault();
 }
@@ -190,6 +193,102 @@ function deleteProduct(id) {
             url: "http://localhost:8080/home/" + id,
             success: function () {
                 getAllProduct(0)
+                alert("Delete successfully!")
+            }
+        });
+    }
+}
+function randomString() {
+    let result = '';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const charactersLength = characters.length;
+    for (let i = 0; i < 7; i++) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+}
+function createVoucher() {
+    let percent = $("#percent").val()
+    let code = randomString()
+    let id = $("#voucherProduct").val()
+
+    let voucher = {
+        percent: percent,
+        code: code,
+        product: {
+            id: id
+        }
+    }
+    $.ajax({
+        headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("token"),
+        },
+        contentType: "application/json",
+        accept: "application/json",
+        type: "POST",
+        url: "http://localhost:8080/home/saveVoucher",
+        data: JSON.stringify(voucher),
+        success: function () {
+            getAllVoucher()
+            alert("Create voucher successfully!")
+        },
+        error:function (){
+            alert("Add voucher fail!")
+        }
+    })
+    event.preventDefault();
+}
+function getProductVoucher() {
+    $.ajax({
+        url: "http://localhost:8080/home",
+        type: "GET",
+        success(data) {
+            arrVoucherProduct = data.content
+        }
+    })
+}
+function createVoucherForm() {
+    let content = `<label><select id="voucherProduct"></label>`
+    for (let i = 0; i < arrVoucherProduct.length; i++) {
+        content += `<option value="${arrVoucherProduct[i].id}">${arrVoucherProduct[i].name}</option>`
+    }
+    content += `</select>`
+    document.getElementById("voucherProductForm").innerHTML = content
+    $("#percent").val("")
+}
+function displayVoucher(data) {
+    $("#list_voucher").show()
+    let content = `<button class="btn btn-primary" onclick = back()>Back</button>
+                   <table class="table table-striped"><tr><th>Code</th><th>Percent</th>
+                    <th>Product</th><th>Action</th></tr>`;
+    for (let i = 0; i < data.length; i++) {
+            content += `<tr><td >${data[i].code}</td><td >${data[i].percent}</td><td >${data[i].product.name}</td>
+                    <td><button class="btn btn-danger" onclick="deleteVoucher(${data[i].id})">Delete</button></td></tr>`;
+    }
+    content += '</table>'
+    document.getElementById('list_voucher').innerHTML = content;
+}
+function getAllVoucher() {
+    $("#formUpdate").hide()
+    $("#list_product").hide()
+    $("#page").hide()
+
+    $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/home/vouchers",
+        success: function (data) {
+            displayVoucher(data)
+
+        }
+    });
+}
+function deleteVoucher(id) {
+    if (confirm("Are you sure you want to delete?")) {
+        $.ajax({
+            type: "DELETE",
+            url: "http://localhost:8080/home/vouchers/" + id,
+            success: function () {
+                getAllVoucher()
                 alert("Delete successfully!")
             }
         });

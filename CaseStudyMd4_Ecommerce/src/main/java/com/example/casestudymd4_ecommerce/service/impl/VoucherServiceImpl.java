@@ -1,5 +1,6 @@
 package com.example.casestudymd4_ecommerce.service.impl;
 
+import com.example.casestudymd4_ecommerce.model.Shop;
 import com.example.casestudymd4_ecommerce.model.Voucher;
 import com.example.casestudymd4_ecommerce.repository.IVoucherRepo;
 import com.example.casestudymd4_ecommerce.service.IVoucherService;
@@ -7,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 
@@ -32,5 +35,8 @@ public class VoucherServiceImpl implements IVoucherService {
     @Override
     public void delete(Long id) {
         voucherRepo.deleteById(id);
+    }
+    public List<Voucher> findAllVoucherByShop(Shop shop){
+        return voucherRepo.findAllByShop(shop);
     }
 }
