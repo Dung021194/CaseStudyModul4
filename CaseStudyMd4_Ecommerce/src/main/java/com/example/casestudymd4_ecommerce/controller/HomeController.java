@@ -38,6 +38,8 @@ public class HomeController {
     private CategoryServiceImpl categoryService;
     @Autowired
     private VoucherServiceImpl voucherService;
+    @Autowired
+    private CartServiceImpl cartService;
 
     @GetMapping("/shops")
     public ResponseEntity<Page<Shop>> showOwner(@PageableDefault(size = 5)
@@ -119,6 +121,10 @@ public class HomeController {
     public ResponseEntity<List<Voucher>> deleteVouchers(@PathVariable Long id){
         voucherService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+    @GetMapping("/addToCart/{id}")
+    public ResponseEntity<Cart> addToCart(HttpServletRequest request,@PathVariable Long id){
+        return new ResponseEntity<>(cartService.addProductToCart(request,id),HttpStatus.OK);
     }
 
 }

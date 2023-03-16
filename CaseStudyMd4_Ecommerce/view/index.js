@@ -70,7 +70,7 @@ function displayPage(data){
                                             <div class="product_price">${data.content[i].price}</div>
                                         </div>
                                     </div>
-                                    <div class="red_button add_to_cart_button"><a href="#">add to cart</a></div>
+                                    <div class="red_button add_to_cart_button"><a href="#" onclick="addToCart(${data.content[i].id})">add to cart</a></div>
                                 </div>`
                 }
                 document.getElementById("products-all").innerHTML = context;
@@ -78,15 +78,40 @@ function displayPage(data){
             }
             })
         }
-        function addToCart(){
+        function addToCart(id){
             $.ajax({
                 headers: {
                     Authorization: "Bearer " + sessionStorage.getItem("token"),
                 },
-                url: "http://localhost:8080/home/products?size=7",
+                url: "http://localhost:8080/home/addToCart/"+id,
                 type: "GET",
+                dataType: "json",
                 success: function (data) {
-
+                    if (data.user!=null){
+                        checkOutNumberAdd()
+                        getAllProductsPage(0)
+                    }
                 }
             })
+            event.preventDefault()
         }
+function checkOutNumberAdd(){
+    let quantity = sessionStorage.getItem("checkOut")
+    if (quantity === null){
+        sessionStorage.setItem("checkOut", "1")
+    }else {
+        let update = parseInt(quantity) + 1
+        sessionStorage.setItem("checkOut", update.toString())
+    }
+    $("#checkout_items").val(sessionStorage.getItem("checkOut"))
+}
+function checkOutNumberSub(){
+    let quantity = sessionStorage.getItem("checkOut")
+    if (quantity === null ){
+        sessionStorage.setItem("checkOut","0")
+    }else {
+        let update = parseInt(quantity) - 1
+        sessionStorage.setItem("checkOut", update.toString())
+    }
+    $("#checkout_items").val(sessionStorage.getItem("checkOut"))
+}
