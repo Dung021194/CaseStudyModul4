@@ -159,5 +159,4 @@ function displayNewProducts() {
             document.getElementById("products-all").innerHTML = context;
         }
     })
-
 }
