@@ -46,6 +46,7 @@ public class AuthController {
            if (user1.getStatus()) {
                try {
 
+
                    Authentication authentication = authenticationManager.authenticate(
                            new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
                    SecurityContextHolder.getContext().setAuthentication(authentication);
