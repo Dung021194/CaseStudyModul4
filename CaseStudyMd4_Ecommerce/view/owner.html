@@ -31,10 +31,12 @@
                 </div>
                 <div class="col-sm-6">
                     <a href="#addProductModal" class="btn btn-success"  data-toggle="modal"><i class="material-icons">&#xE147;</i> <button style="border: none" class="btn btn-success" onclick="createForm()">Add New Product</button></a>
-                </div>
+                    <a href="#addVoucherModal" class="btn btn-success"  data-toggle="modal"><i class="material-icons">&#xE147;</i> <button style="border: none" class="btn btn-success" onclick="createVoucherForm()">Add New Voucher</button></a>
+                    <button style="border: none" class="btn btn-success" onclick="getAllVoucher()">List Voucher</button>
             </div>
         </div>
         <div id="list_product"></div>
+            <div id="list_voucher"></div>
         <div id="page"></div>
 </div>
 </div>
@@ -118,6 +120,32 @@
             </div>
         </div>
     </div>
+</div>
+<div id="addVoucherModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Add Voucher</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Sale Off Percent</label>
+                    <input id="percent" type="text" class="form-control" required>
+                </div>
+                <div class="form-group" onload="getProductVoucher()">
+                    <label>Product</label>
+                    <div id="voucherProductForm"></div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                <label><input class="btn btn-success" data-dismiss="modal" aria-hidden="true" onclick="createVoucher()" value="Add"/></label>
+            </div>
+        </div>
+    </div>
+</div>
 </div>
 </body>
 </html>

@@ -21,7 +21,8 @@ public class Cart {
     private Date datePayment;
     private Double totalPay;
     @OneToOne(targetEntity = User.class)
-    private User account;
+    private User user;
+    private String status;
     @ElementCollection
     private Map<Product,Integer> productsMap;
 }

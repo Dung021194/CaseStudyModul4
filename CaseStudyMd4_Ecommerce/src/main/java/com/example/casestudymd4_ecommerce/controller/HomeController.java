@@ -1,22 +1,17 @@
 package com.example.casestudymd4_ecommerce.controller;
 
-import com.example.casestudymd4_ecommerce.model.Category;
-import com.example.casestudymd4_ecommerce.model.Product;
-import com.example.casestudymd4_ecommerce.model.Shop;
-import com.example.casestudymd4_ecommerce.model.User;
+import com.example.casestudymd4_ecommerce.model.*;
 import com.example.casestudymd4_ecommerce.service.IProductService;
 import com.example.casestudymd4_ecommerce.service.IShopService;
 import com.example.casestudymd4_ecommerce.service.IUserService;
-import com.example.casestudymd4_ecommerce.service.impl.CategoryServiceImpl;
-import com.example.casestudymd4_ecommerce.service.impl.ProductServiceImpl;
-import com.example.casestudymd4_ecommerce.service.impl.ShopServiceImpl;
-import com.example.casestudymd4_ecommerce.service.impl.UserServiceImpl;
+import com.example.casestudymd4_ecommerce.service.impl.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -41,6 +36,8 @@ public class HomeController {
     private ShopServiceImpl shopService;
     @Autowired
     private CategoryServiceImpl categoryService;
+    @Autowired
+    private VoucherServiceImpl voucherService;
 
     @GetMapping("/shops")
     public ResponseEntity<Page<Shop>> showOwner(@PageableDefault(size = 5)
@@ -94,5 +91,35 @@ public class HomeController {
         productService.delete(id);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
+    @GetMapping("/products")
+    public ResponseEntity<Page<Product>> findAllProducts(@PageableDefault(size = 5)
+                                                         @SortDefault.SortDefaults({@SortDefault(sort = "name", direction = Sort.Direction.ASC)})
+                                                         Pageable pageable) {
+        Page<Product> products = productService.findAll(pageable);
+        return new ResponseEntity<>(products,HttpStatus.OK);
+    }
+    @PostMapping("/saveVoucher")
+    public ResponseEntity<Void> saveVoucher(@RequestBody Voucher voucher,HttpServletRequest request){
+        HttpSession session = request.getSession();
+        Long id = (Long) session.getAttribute("userId");
+        Shop shop = shopService.findShopByUser(id);
+        voucher.setShop(shop);
+        voucherService.save(voucher);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    }
+    @GetMapping("/vouchers")
+    public ResponseEntity<List<Voucher>> getVouchers(HttpServletRequest request){
+        HttpSession session = request.getSession();
+        Long id = (Long) session.getAttribute("userId");
+        Shop shop = shopService.findShopByUser(id);
+        List<Voucher> voucherList = voucherService.findAllVoucherByShop(shop);
+        return new ResponseEntity<>(voucherList,HttpStatus.OK);
+    }
+    @DeleteMapping("/vouchers/{id}")
+    public ResponseEntity<List<Voucher>> deleteVouchers(@PathVariable Long id){
+        voucherService.delete(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }
 

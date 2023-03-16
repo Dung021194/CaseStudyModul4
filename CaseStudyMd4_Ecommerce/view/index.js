@@ -60,7 +60,7 @@ function displayPage(data){
                     <div class="product-item women">
                                     <div class="product product_filter">
                                         <div class="product_image">
-                                            <img src=" ${data.content[i].image} " alt="">
+                                            <img src=" ${data.content[i].imagePath} " alt="">
                                         </div>
                                         <div class="favorite"></div>
                                         <div class="product_bubble product_bubble_left product_bubble_green d-flex flex-column align-items-center"> 
@@ -76,5 +76,17 @@ function displayPage(data){
                 document.getElementById("products-all").innerHTML = context;
 
             }
+            })
+        }
+        function addToCart(){
+            $.ajax({
+                headers: {
+                    Authorization: "Bearer " + sessionStorage.getItem("token"),
+                },
+                url: "http://localhost:8080/home/products?size=7",
+                type: "GET",
+                success: function (data) {
+
+                }
             })
         }

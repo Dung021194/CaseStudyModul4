@@ -20,7 +20,7 @@ public class Voucher {
     @ManyToOne(targetEntity = Product.class)
     Product product;
     @ManyToOne(targetEntity = User.class)
-    User user;
+    Shop shop;
     Double percent;
 
 }
