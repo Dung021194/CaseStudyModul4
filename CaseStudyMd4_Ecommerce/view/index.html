@@ -15,8 +15,14 @@
     <link rel="stylesheet" type="text/css" href="styles/main_styles.css">
     <link rel="stylesheet" type="text/css" href="styles/responsive.css">
 </head>
-
-<body onload="displayProducts()">
+<style>
+    #account:hover {
+        color: white;
+        background-color: #1e1e27;
+        cursor: pointer;
+    }
+</style>
+<body onload=" displayProducts(), displayUser()">
 
 <div class="super_container">
 
@@ -36,17 +42,16 @@
                         <div class="top_nav_right">
                             <ul class="top_nav_menu">
 
-                                <!-- Currency / Language / My Account -->
+                                <!-- My Account -->
 
-
-                                <li class="account">
+                                <li class="account" id="logout-val" >
                                     <a href="#" style="display: block">
-                                        My Account
+                                       <span id="logout">My Account</span>
                                         <i class="fa fa-angle-down"></i>
                                     </a>
                                     <ul class="account_selection">
-                                        <li><a href="login.html"><i class="fa fa-sign-in"></i>Sign In</a></li>
-                                        <li><a href="register.html"><i class="fa fa-user-plus"></i>Register</a></li>
+                                        <li id="getout" ><a id="linksign" href="login.html" ><i class="fa fa-sign-in"></i> <span id="span1" >Sign In</span></a></li>
+                                        <li id="signin"><a href="register.html"><i class="fa fa-user-plus"></i>Register</a></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -68,14 +73,9 @@
                         <nav class="navbar">
                             <ul class="navbar_menu">
                                 <li><a href="#">home</a></li>
-                                <li><a href="shopCustomer.html">shop</a></li>
-                                <li><a href="#">promotion</a></li>
-                                <li><a href="#">pages</a></li>
-                                <li><a href="#">blog</a></li>
-                                <li><a href="contact.html">contact</a></li>
                             </ul>
                             <ul class="navbar_user">
-                                <li><a href="#"><i class="fa fa-search" aria-hidden="true"></i></a></li>
+                                <li><a href="#" id="search" onclick="showModal()"><i class="fa fa-search" aria-hidden="true"> </i></a></li>
                                 <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li>
                                 <li class="checkout">
                                     <a href="#">
@@ -94,59 +94,6 @@
         </div>
 
     </header>
-
-    <div class="fs_menu_overlay"></div>
-    <div class="hamburger_menu">
-        <div class="hamburger_close"><i class="fa fa-times" aria-hidden="true"></i></div>
-        <div class="hamburger_menu_content text-right">
-            <ul class="menu_top_nav">
-                <li class="menu_item has-children">
-                    <a href="#">
-                        usd
-                        <i class="fa fa-angle-down"></i>
-                    </a>
-                    <ul class="menu_selection">
-                        <li><a href="#">cad</a></li>
-                        <li><a href="#">aud</a></li>
-                        <li><a href="#">eur</a></li>
-                        <li><a href="#">gbp</a></li>
-                    </ul>
-                </li>
-                <li class="menu_item has-children">
-                    <a href="#">
-                        English
-                        <i class="fa fa-angle-down"></i>
-                    </a>
-                    <ul class="menu_selection">
-                        <li><a href="#">French</a></li>
-                        <li><a href="#">Italian</a></li>
-                        <li><a href="#">German</a>< /li>
-                        <li><a href="#">Spanish</a></li>
-                    </ul>
-                </li>
-
-                <li class="menu_item has-children" id="account">
-                    <a href="#">
-                        My Account
-                        <i class="fa fa-angle-down"></i>
-                    </a>
-                    <ul class="menu_selection">
-                        <li><a href="#"><i class="fa fa-sign-in" aria-hidden="true"></i>Sign In</a></li>
-                        <li><a href="#"><i class="fa fa-user-plus" aria-hidden="true"></i>Register</a></li>
-                    </ul>
-
-
-                </li>
-                <li class="menu_item"><a href="#">home</a></li>
-                <li class="menu_item"><a href="#">shop</a></li>
-                <li class="menu_item"><a href="#">promotion</a></li>
-                <li class="menu_item"><a href="#">pages</a></li>
-                <li class="menu_item"><a href="#">blog</a></li>
-                <li class="menu_item"><a href="#">contact</a></li>
-            </ul>
-        </div>
-    </div>
-
     <!-- Slider -->
 
     <div class="main_slider" style="background-image:url(images/slider_1.jpg)">
@@ -171,7 +118,7 @@
                 <div class="col-md-4">
                     <div class="banner_item align-items-center" style="background-image:url(images/banner_1.jpg)">
                         <div class="banner_category">
-                            <a href="categories.html">women's</a>
+                            <a href="categories.html" >women's</a>
                         </div>
                     </div>
                 </div>
@@ -212,13 +159,10 @@
                                 data-filter="*" onclick="displayProducts()">all
                             </li>
                             <li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center"
-                                data-filter=".women">women's
+                                onclick="displayClothes()">Clothes
                             </li>
                             <li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center"
-                                data-filter=".accessories">accessories
-                            </li>
-                            <li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center"
-                                data-filter=".men">men's
+                                onclick="displayNewProducts()">NEW Products
                             </li>
                         </ul>
                     </div>
@@ -228,7 +172,7 @@
 
 
             <div class="row">
-                <div class="col" style=" padding-left: 250px;">
+                <div class="col" style=" padding-left: 300px;">
                     <div class="product-grid" id="products-all"
                          data-isotope='{ "itemSelector": ".product-item", "layoutMode": "fitRows" }'>
                         <div class="product-item" style="width: 100%; height: 400px ;">
@@ -241,8 +185,7 @@
                 </div>
             </div>
         </div>
-
-            <!-- Deal of the week -->
+     <!-- Deal of the week -->
 
             <div class="deal_ofthe_week" style="margin-top: 700px;">
                 <div class="container">
@@ -683,29 +626,23 @@
         <!--script modal search -->
         <script>
 
-            var modal = document.getElementById("myModal");
-
-
-            var btn = document.getElementById("myBtn");
-
-
-            var span = document.getElementsByClassName("close")[0];
-
-
-            btn.onclick = function () {
+            function showModal() {
+                var modal = document.getElementById("myModal");
                 modal.style.display = "block";
-            }
 
-            span.onclick = function () {
-                modal.style.display = "none";
-            }
-
-
-            window.onclick = function (event) {
-                if (event.target == modal) {
+                var closeButton = document.getElementsByClassName("close")[0];
+                closeButton.onclick = function() {
                     modal.style.display = "none";
                 }
+
+                // Ẩn modal khi nhấp ngoài vùng modal
+                window.onclick = function(event) {
+                    if (event.target == modal) {
+                        modal.style.display = "none";
+                    }
+                }
             }
+
         </script>
         <!--CSS modal search -->
         <style>
@@ -746,14 +683,35 @@
                 text-decoration: none;
                 cursor: pointer;
             }
+            #searchInput {
+                border: 1px solid #ccc; /* đường viền mặc định */
+                border-width: thin; /* làm mỏng đường viền */
+                border-radius: 5px; /* bo tròn đường viền */
+                padding: 8px; /* khoảng cách giữa đường viền và nội dung */
+                width: 87%;
+            }
+            #submit {
+                border: 1px solid #ccc; /* đường viền mặc định */
+                border-width: thin; /* làm mỏng đường viền */
+                border-radius: 5px; /* bo tròn đường viền */
+                padding: 8px;
+            }
+            #submit:hover {
+                background-color: #b3b7c8;
+                cursor: pointer ;
+            }
         </style>
         <!--HTML modal-->
 
         <div id="myModal" class="modal">
-            <!-- Modal content -->
             <div class="modal-content">
                 <span class="close">&times;</span>
-                <p>Some text in the Modal..</p>
+                       <form>
+                           <div>
+                               <input type="text"  id="searchInput" >
+                               <button type="submit"  id="submit" onclick="searchProduct()" style="float: right ;margin-left: 5px; ;margin-bottom: 15px ; width: 10%" >Confirm </button>
+                           </div>
+            </form>
             </div>
         </div>
 
