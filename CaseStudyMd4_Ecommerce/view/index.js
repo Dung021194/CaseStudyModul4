@@ -160,3 +160,5 @@ function displayNewProducts() {
         }
     })
 }
+
+funtion
