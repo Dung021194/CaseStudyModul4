@@ -1,6 +1,7 @@
 package com.example.casestudymd4_ecommerce.controller;
 
 import com.example.casestudymd4_ecommerce.model.*;
+import com.example.casestudymd4_ecommerce.repository.IProductRepo;
 import com.example.casestudymd4_ecommerce.service.IProductService;
 import com.example.casestudymd4_ecommerce.service.IShopService;
 import com.example.casestudymd4_ecommerce.service.IUserService;
@@ -40,6 +41,8 @@ public class HomeController {
     private VoucherServiceImpl voucherService;
     @Autowired
     private CartServiceImpl cartService;
+    @Autowired
+    private IProductRepo iProductRepo;
 
     @GetMapping("/shops")
     public ResponseEntity<Page<Shop>> showOwner(@PageableDefault(size = 5)
@@ -126,6 +129,33 @@ public class HomeController {
     public ResponseEntity<Cart> addToCart(HttpServletRequest request,@PathVariable Long id){
         return new ResponseEntity<>(cartService.addProductToCart(request,id),HttpStatus.OK);
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<Page<Product>> findByName(@PageableDefault(size = 4) Pageable pageable, String name) {
+        Page<Product> products = iProductRepo.findAllByNameContaining(pageable, name);
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
+
+    @GetMapping("/new")
+    public ResponseEntity<Page<Product>> newProducts(@PageableDefault(size = 4) Pageable pageable) {
+        Page<Product> products = iProductRepo.findNewestProducts(PageRequest.of(0, 3));
+        return new ResponseEntity<>(products, HttpStatus.FOUND);
+    }
+
+    @GetMapping("/cate-names-shirt")
+    public ResponseEntity<Page<String>> getProductNamesByCategory(
+            @PageableDefault(size = 3, page = 0, sort = "name") Pageable pageable) {
+        Page<String> page = iProductRepo.findAllProductNamesByCategory(pageable);
+        return ResponseEntity.ok(page);
+    }
+
+    @GetMapping("/cate-names-accessory")
+    public ResponseEntity<Page<String>> getProductNamesByCategory1(
+            @PageableDefault(size = 3, page = 0, sort = "name") Pageable pageable) {
+        Page<String> page = iProductRepo.findAllProductNamesByCategory(pageable);
+        return ResponseEntity.ok(page);
+    }
+
 
 }
 
