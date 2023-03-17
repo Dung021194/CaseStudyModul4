@@ -145,23 +145,7 @@ function checkOutNumberSub(){
     }
     $("#checkout_items").val(sessionStorage.getItem("checkOut"))
 }
-function addToCart(id) {
-    $.ajax({
-        headers: {
-            Authorization: "Bearer " + sessionStorage.getItem("token"),
-        },
-        url: "http://localhost:8080/home/addToCart/" + id,
-        type: "GET",
-        dataType: "json",
-        success: function (data) {
-            if (data.user != null) {
-                checkOutNumberAdd()
-                getAllProductsPage(0)
-            }
-        }
-    })
-    event.preventDefault()
-}
+
 function addToCart(id) {
     $.ajax({
         headers: {
