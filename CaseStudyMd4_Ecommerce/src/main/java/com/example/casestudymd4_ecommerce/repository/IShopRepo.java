@@ -15,4 +15,6 @@ public interface IShopRepo extends JpaRepository<Shop,Long> {
 
     @Query(value = "SELECT s from Shop s where s.user.id = :id")
     Shop findShopByUserId(@Param( "id") Long id);
+    @Query(value = "SELECT s from Shop s where s.user.status = true")
+    Page<Shop> showAllShop(Pageable pageable);
 }

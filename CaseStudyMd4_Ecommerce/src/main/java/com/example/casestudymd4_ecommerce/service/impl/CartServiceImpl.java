@@ -29,6 +29,10 @@ public class CartServiceImpl implements ICartService {
     IProductRepo productRepo;
     @Autowired
     IVoucherRepo voucherRepo;
+    @Autowired
+    private HttpSession httpSession;
+    @Autowired
+    private UserServiceImpl userService;
 
     @Override
     public Page<Cart> findAll(Pageable pageable) {
@@ -55,11 +59,9 @@ public class CartServiceImpl implements ICartService {
 
 
     @Override
-    public Cart addProductToCart(HttpServletRequest request, Long id) {
+    public Cart addProductToCart(Long id) {
         Product product = productRepo.findById(id).orElse(null);
-        HttpSession session = request.getSession();
-        String username = (String) session.getAttribute("usernameDisplay");
-        User user = userRepo.findByUsername(username).orElse(null);
+        User user = userService.getCurrentUser();
             Cart cart = findCartByUser(user);
             if (cart == null) {
                 cart = new Cart();
@@ -71,7 +73,7 @@ public class CartServiceImpl implements ICartService {
             } else {
                 Map<Product, Integer> productMap = cart.getProductsMap();
                 Integer quantity = productMap.get(product);
-                if (quantity == 0) {
+                if (quantity == null) {
                     productMap.put(product, 1);
                 } else {
                     productMap.put(product, (quantity + 1));
@@ -81,12 +83,11 @@ public class CartServiceImpl implements ICartService {
             return cart;
     }
 
+
     @Override
-    public Cart deleteProductInCart(HttpServletRequest request, Long id) {
+    public Cart deleteProductInCart(Long id) {
         Product product = productRepo.findById(id).orElse(null);
-        HttpSession session = request.getSession();
-        String username = (String) session.getAttribute("usernameDisplay");
-        User user = userRepo.findByUsername(username).orElse(null);
+        User user = userService.getCurrentUser();
         Cart cart = findCartByUser(user);
         if (cart!=null){
             Map<Product, Integer> productMap = cart.getProductsMap();
@@ -129,4 +130,21 @@ public class CartServiceImpl implements ICartService {
     public Cart findCartByUser(User user) {
        return cartRepo.findCartByUser(user);
     }
+
+    public Integer getQuantityProduct(){
+        Integer quantity = 0;
+        User user = userService.getCurrentUser();
+        if (user!=null) {
+            Cart cart = findCartByUser(user);
+            if (cart.getStatus().equals("pending")) {
+                Map<Product, Integer> productsMap = cart.getProductsMap();
+                Set<Product> set = productsMap.keySet();
+                for (Product p : set) {
+                    quantity += productsMap.get(p);
+                }
+            }
+        }
+        return quantity;
+    }
 }
+

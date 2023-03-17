@@ -6,12 +6,14 @@ import com.example.casestudymd4_ecommerce.model.Product;
 import com.example.casestudymd4_ecommerce.model.User;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.Map;
 
 public interface ICartService extends ICOREService<Cart> {
 
-    Cart addProductToCart(HttpServletRequest request, Long id);
-    Cart deleteProductInCart(HttpServletRequest request, Long id);
+    Cart addProductToCart(Long id);
+
+    Cart deleteProductInCart(Long id);
 
     Cart findCartByUser(User user);
 }

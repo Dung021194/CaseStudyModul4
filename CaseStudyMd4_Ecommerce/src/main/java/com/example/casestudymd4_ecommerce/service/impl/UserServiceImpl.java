@@ -8,6 +8,8 @@ import com.example.casestudymd4_ecommerce.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -54,7 +56,7 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 
     @Override
     public Page<User> findAll(Pageable pageable) {
-        return userRepo.findAll(pageable);
+        return userRepo.showAllUser(pageable);
     }
 
     @Override
@@ -80,6 +82,11 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
             throw new UsernameNotFoundException(username);
         }
         return UserPrinciple.build(userOptional.get());
+    }
+    public User getCurrentUser(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        return  findByUsername(currentPrincipalName).orElse(null);
     }
 
 }

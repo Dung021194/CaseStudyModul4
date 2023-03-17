@@ -15,18 +15,17 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
+
 import javax.servlet.http.HttpSession;
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
-@Controller
+@RestController
 @CrossOrigin("*")
 @RequestMapping("/api")
+
 public class AuthController {
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -42,14 +41,12 @@ public class AuthController {
     private IRoleService iRoleService;
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody User user, HttpServletRequest request) {
+    public ResponseEntity<?> login(HttpSession session, @RequestBody User user) {
         User user1 = userService.findByUsername(user.getUsername()).orElse(null);
-        HttpSession session = request.getSession();
         if (user1 != null) {
            if (user1.getStatus()) {
+               session.setAttribute("user",user1);
                try {
-                   session.setAttribute("usernameDisplay",user1.getUsername());
-                   session.setAttribute("userId",user1.getId());
                    Authentication authentication = authenticationManager.authenticate(
                            new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
                    SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -62,6 +59,7 @@ public class AuthController {
                    // Xử lý khi tài khoản không hợp lệ
                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("{\"error\": \"Invalid username or password\"}");
                }
+
            }
             return ResponseEntity.status(HttpStatus.LOCKED).body("{\"error\": \"This user has been locked\"}");
         }
