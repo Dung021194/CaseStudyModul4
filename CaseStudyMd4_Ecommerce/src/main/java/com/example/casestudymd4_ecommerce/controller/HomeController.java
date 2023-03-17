@@ -12,6 +12,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -74,8 +77,8 @@ public class HomeController {
     @GetMapping()
     public ResponseEntity<Page<Product>> showShopProduct(@PageableDefault Pageable pageable,HttpServletRequest request){
         HttpSession session = request.getSession();
-        Long id = (Long) session.getAttribute("userId");
-        Page<Product> products = productService.findALlProductByShop(pageable,1L);
+        User user = (User) session.getAttribute("user");
+        Page<Product> products = productService.findALlProductByShop(pageable,user.getId());
         return new ResponseEntity<>(products,HttpStatus.OK);
     }
     @GetMapping("/categories")
@@ -123,8 +126,9 @@ public class HomeController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
     @GetMapping("/addToCart/{id}")
-    public ResponseEntity<Cart> addToCart(HttpServletRequest request,@PathVariable Long id){
-        return new ResponseEntity<>(cartService.addProductToCart(request,id),HttpStatus.OK);
+    public ResponseEntity<Cart> addToCart(@PathVariable Long id){
+
+        return new ResponseEntity<>(cartService.addProductToCart(id),HttpStatus.OK);
     }
 
     @GetMapping("/search")
@@ -151,6 +155,10 @@ public class HomeController {
             @PageableDefault(size = 3, page = 0, sort = "name") Pageable pageable) {
         Page<String> page = iProductRepo.findAllProductNamesByCategory(pageable);
         return ResponseEntity.ok(page);
+    }
+    @GetMapping("/getCheckOutItem")
+    public ResponseEntity<Integer> getCheckOutItem(){
+        return new ResponseEntity<>(cartService.getQuantityProduct(),HttpStatus.ACCEPTED);
     }
 
 

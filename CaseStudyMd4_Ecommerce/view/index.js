@@ -1,3 +1,4 @@
+window.onload = checkOutNumber()
 function displayUser() {
     if (sessionStorage.getItem("usernameDisplay") != null) {
         let userDisplay = sessionStorage.getItem("usernameDisplay");
@@ -88,7 +89,7 @@ function getAllProductsPage(page) {
                                             <div class="product_price">${data.content[i].price}</div>
                                         </div>
                                     </div>
-                                    <div class="red_button add_to_cart_button"><a href="#">add to cart</a></div>
+                                    <div class="red_button add_to_cart_button"><a href="#" onclick="addToCart(${data.content[i].id})">add to cart</a></div>
                                 </div>`
             }
             document.getElementById("products-all").innerHTML = context;
@@ -153,7 +154,7 @@ function displayNewProducts() {
                                             <div class="product_price">${data.content[i].price}</div>
                                         </div>
                                     </div>
-                                    <div class="red_button add_to_cart_button"><a href="#">add to cart</a></div>
+                                    <div class="red_button add_to_cart_button"><a href="#" onclick="addToCart(${data.content[i].id})">add to cart</a></div>
                                 </div>`
             }
             document.getElementById("products-all").innerHTML = context;
@@ -161,4 +162,32 @@ function displayNewProducts() {
     })
 }
 
-funtion
+function checkOutNumber(){
+    $.ajax({
+        headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("token"),
+        },
+        url: "http://localhost:8080/home/getCheckOutItem",
+        type: "GET",
+        success: function (data) {
+            $("#checkout_items").val(data)
+        }
+    })
+
+}
+function addToCart(id){
+    $.ajax({
+        headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("token"),
+        },
+        url: "http://localhost:8080/home/addToCart/"+id,
+        type: "GET",
+        success: function (data) {
+            if (data!=null){
+                checkOutNumberAdd()
+                getAllProductsPage(0)
+            }
+        }
+    })
+    event.preventDefault()
+}
