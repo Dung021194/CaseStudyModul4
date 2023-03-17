@@ -16,7 +16,7 @@ function displayUser() {
     }
 }
 
-function displayProductsDetail() {
+function displayProductsDetail(id) {
     $.ajax({
         headers: {
             Authorization: "Bearer " + sessionStorage.getItem("token"),
@@ -26,22 +26,22 @@ function displayProductsDetail() {
         success: function (data) {
             let context = ""
               context += `
-<!--               	<div class="row">-->
+
 			<div class="col-lg-7">
 				<div class="single_product_pics">
 					<div class="row">
 						<div class="col-lg-3 thumbnails_col order-lg-1 order-2">
 							<div class="single_product_thumbnails">
 								<ul>
-									<li><img src="${data.imagePath}" alt="" data-image="images/single_1.jpg"></li>
-									<li class="active"><img src="${data.imagePath}" alt="" data-image="images/single_2.jpg"></li>
-									<li><img src="${data.imagePath}" alt="" data-image="images/single_3.jpg"></li>
+									<li><img src="${data.content.imagePath}" ></li>
+									<li class="active"><img src="${data.content.imagePath}" ></li>
+									<li><img src="${data.content.imagePath}"></li>
 								</ul>
 							</div>
 						</div>
 						<div class="col-lg-9 image_col order-lg-2 order-1">
 							<div class="single_product_image">
-								<div class="single_product_image_background" style="background-image:url(${data.imagePath})"></div>
+								<div class="single_product_image_background" style="background-image:url(${data.content.imagePath})"></div>
 							</div>
 						</div>
 					</div>
@@ -50,14 +50,14 @@ function displayProductsDetail() {
 			<div class="col-lg-5">
 				<div class="product_details">
 					<div class="product_details_title">
-						<h2>${data.name}</h2>
-						<p>${data.description}</p>
+						<h2>${data.content.imagePath}</h2>
+						<p>${data.content.description}</p>
 					</div>
 					<div class="free_delivery d-flex flex-row align-items-center justify-content-center">
 						<span class="ti-truck"></span><span>free delivery</span>
 					</div>
-					<div class="original_price">${data.price}</div>
-					<div class="product_price">${data.price}/20%</div>
+					<div class="original_price">${data.content.price}</div>
+					<div class="product_price">${data.content.price}/20%</div>
 					<ul class="star_rating">
 						<li><i class="fa fa-star" aria-hidden="true"></i></li>
 						<li><i class="fa fa-star" aria-hidden="true"></i></li>
@@ -85,7 +85,6 @@ function displayProductsDetail() {
 					</div>
 				</div>
 			</div>
-		</div>
 	</div>`
         }
     })
