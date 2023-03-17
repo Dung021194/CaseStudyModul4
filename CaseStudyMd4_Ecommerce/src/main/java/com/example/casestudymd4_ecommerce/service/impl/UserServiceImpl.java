@@ -39,10 +39,13 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         Set<Role> set = new HashSet<>();
         set.add(roleService.findOne(2L));
         user.setRoles(set);
-        user.setStatus(true);
-        userRepo.save(user);
+        if (user.getStatus()==false){
+            userRepo.save(user);
+        }else {
+            user.setStatus(true);
+            userRepo.save(user);
+        }
     }
-
     @Override
     public void delete(Long id) {
         userRepo.deleteById(id);

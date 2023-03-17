@@ -162,3 +162,34 @@ function addToCart(id) {
     })
     event.preventDefault()
 }
+function addToCart(id) {
+    $.ajax({
+        headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("token"),
+        },
+        url: "http://localhost:8080/home/addToCart/" + id,
+        type: "GET",
+        dataType: "json",
+        success: function (data) {
+            if (data.user != null) {
+
+            }
+        }
+    })
+    event.preventDefault()
+}
+window.onload = checkOutItem()
+function checkOutItem() {
+    $.ajax({
+        headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("token"),
+        },
+        url: "http://localhost:8080/home/getCheckOutItem",
+        type: "GET",
+        dataType: "json",
+        success: function (data) {
+            document.getElementById("checkout_items").innerHTML=data
+
+        }
+    })
+}

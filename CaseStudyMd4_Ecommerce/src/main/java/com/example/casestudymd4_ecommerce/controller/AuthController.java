@@ -68,15 +68,16 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body("{\"error\": \"Error, please try again \"}");
     }
     @PostMapping("/register")
-    public ResponseEntity<Void> Register(@RequestBody User user, @RequestParam(value = "role", required = false) String roleIdStr) {
+    public ResponseEntity<Void> Register(@RequestBody User user, @RequestParam(value = "role_id", required = false) String roleIdStr) {
         if (!userService.checkUsernameExists(user.getUsername())) {
-            if (roleIdStr != null) {
-               userService.save(user);
-            }
             Set<Role> roles = new HashSet<>();
             Role role = null;
             Long roleId = null;
+            if (roleIdStr != null && !roleIdStr.trim().isEmpty()) {
+                roleId = Long.parseLong(roleIdStr.replaceAll("L",""));
+            } else {
                 roleId = 3L;
+            }
             role = iRoleService.findOne(roleId);
             roles.add(role);
             user.setRoles(roles);
