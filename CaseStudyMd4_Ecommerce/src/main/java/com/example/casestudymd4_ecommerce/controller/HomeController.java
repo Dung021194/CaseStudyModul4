@@ -154,8 +154,12 @@ public class HomeController {
             @PageableDefault(size = 3, page = 0, sort = "name") Pageable pageable) {
         Page<String> page = iProductRepo.findAllProductNamesByCategory(pageable);
         return ResponseEntity.ok(page);
-    }
+    } @GetMapping("/products-detail/{id}")
 
+    public ResponseEntity<Product> detail(@PathVariable Long id ) {
+     Product products =  productService.findOne(id);
+        return new ResponseEntity<>(products ,HttpStatus.OK);
+ }
 
 }
 
