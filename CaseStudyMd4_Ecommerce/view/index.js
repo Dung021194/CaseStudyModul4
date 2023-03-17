@@ -125,26 +125,6 @@ function displayNewProducts() {
     })
 }
 
-function checkOutNumberAdd(){
-    let quantity = sessionStorage.getItem("checkOut")
-    if (quantity === null){
-        sessionStorage.setItem("checkOut", "1")
-    }else {
-        let update = parseInt(quantity) + 1
-        sessionStorage.setItem("checkOut", update.toString())
-    }
-    $("#checkout_items").val(sessionStorage.getItem("checkOut"))
-}
-function checkOutNumberSub(){
-    let quantity = sessionStorage.getItem("checkOut")
-    if (quantity === null ){
-        sessionStorage.setItem("checkOut","0")
-    }else {
-        let update = parseInt(quantity) - 1
-        sessionStorage.setItem("checkOut", update.toString())
-    }
-    $("#checkout_items").val(sessionStorage.getItem("checkOut"))
-}
 function addToCart(id) {
     $.ajax({
         headers: {
@@ -155,10 +135,24 @@ function addToCart(id) {
         dataType: "json",
         success: function (data) {
             if (data.user != null) {
-                checkOutNumberAdd()
-                getAllProductsPage(0)
+
             }
         }
     })
     event.preventDefault()
+}
+window.onload = checkOutItem()
+function checkOutItem() {
+    $.ajax({
+        headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("token"),
+        },
+        url: "http://localhost:8080/home/getCheckOutItem",
+        type: "GET",
+        dataType: "json",
+        success: function (data) {
+            document.getElementById("checkout_items").innerHTML=data
+
+            }
+    })
 }

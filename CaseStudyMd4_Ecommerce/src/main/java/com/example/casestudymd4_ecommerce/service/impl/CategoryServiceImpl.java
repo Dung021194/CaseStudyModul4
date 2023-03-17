@@ -17,7 +17,7 @@ public class CategoryServiceImpl implements ICategoryService {
     ICategoryRepo categoryRepo;
     @Override
     public Page<Category> findAll(Pageable pageable) {
-        return categoryRepo.findAll(pageable);
+        return categoryRepo.showAllCategory(pageable);
     }
 
     @Override

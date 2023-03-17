@@ -41,8 +41,12 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         Set<Role> set = new HashSet<>();
         set.add(roleService.findOne(2L));
         user.setRoles(set);
-        user.setStatus(true);
-        userRepo.save(user);
+        if (user.getStatus()==false){
+            userRepo.save(user);
+        }else {
+            user.setStatus(true);
+            userRepo.save(user);
+        }
     }
 
     @Override
@@ -53,7 +57,7 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 
     @Override
     public Page<User> findAll(Pageable pageable) {
-        return userRepo.findAll(pageable);
+        return userRepo.showAllUser(pageable);
     }
 
     @Override

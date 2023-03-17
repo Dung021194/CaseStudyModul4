@@ -44,15 +44,15 @@ public class HomeController {
     @Autowired
     private IProductRepo iProductRepo;
 
-    @GetMapping("/shops")
+    @GetMapping("/shops/page")
     public ResponseEntity<Page<Shop>> showOwner(@PageableDefault(size = 5)
-                                                @SortDefault.SortDefaults({@SortDefault(sort = "name", direction = Sort.Direction.ASC)})
+                                                @SortDefault.SortDefaults({@SortDefault(sort = "user")})
                                                 Pageable pageable) {
         Page<Shop> shops = shopService.findAll(pageable);
         return new ResponseEntity<>(shops, HttpStatus.OK);
     }
 
-    @PutMapping("/banUser/{id}")
+    @DeleteMapping("/banUser/{id}")
     public ResponseEntity<User> banUser(@PathVariable Long id) {
         User user = userService.findOne(id);
         user.setStatus(false);
@@ -160,7 +160,41 @@ public class HomeController {
     public ResponseEntity<Integer> getCheckOutItem(){
         return new ResponseEntity<>(cartService.getQuantityProduct(),HttpStatus.ACCEPTED);
     }
+    @GetMapping("mmmm")
+    public ResponseEntity<Product> detail(@PathVariable Long id ) {
+        Product products =  productService.findOne(id);
+        return new ResponseEntity<>(products ,HttpStatus.OK);
+    }
 
+    @GetMapping("/user/page")
+    public ResponseEntity<Page<User>> findAllUser(@PageableDefault(size = 5)
+                                                  @SortDefault.SortDefaults({@SortDefault(sort = "username")})
+                                                  Pageable pageable){
+        Page<User> users = userService.findAll(pageable);
+        return new ResponseEntity<>(users, HttpStatus.OK);
+    }
+
+    @PostMapping("/categories")
+    public ResponseEntity<Void> save(@RequestBody Category category) {
+        category.setStatus(true);
+        categoryService.save(category);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/categories/page")
+    public ResponseEntity<Page<Category>> findAllCategory(@PageableDefault(size = 5)
+                                                          @SortDefault.SortDefaults({@SortDefault(sort = "name")})
+                                                          Pageable pageable) {
+        Page<Category> category = categoryService.findAll(pageable);
+        return new ResponseEntity<>(category, HttpStatus.OK);
+    }
+    @DeleteMapping("/categories/{id}")
+    public ResponseEntity<Void>deleteCategory(@PathVariable Long id){
+        Category category = categoryService.findOne(id);
+        category.setStatus(false);
+        categoryService.save(category);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
 }
 
