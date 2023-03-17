@@ -1,4 +1,3 @@
-window.onload = checkOutNumber()
 function displayUser() {
     if (sessionStorage.getItem("usernameDisplay") != null) {
         let userDisplay = sessionStorage.getItem("usernameDisplay");
@@ -14,13 +13,23 @@ function displayUser() {
         document.getElementById("linksign").href = "login.html";
         $("#getout").attr("onclick", "logout()");
         document.getElementById("span1").textContent = "Log out";
-
     }
+}
+function allOnLoad() {
+    displayUser()
+
+    displayProducts()
+    displayClothes()
+    displayNewProducts()
+    checkOutNumberAdd()
+    addToCart()
+    checkOutNumberSub()
 }
 function logout() {
     sessionStorage.removeItem("usernameDisplay");
     window.location.href = "login.html";
 }
+
 function displayPage(data) {
     let content = `<button class="btn btn-primary" id="backup" onclick="isPrevious(${data.pageable.pageNumber})">Previous</button>
     <span>${data.pageable.pageNumber + 1} | ${data.totalPages}</span>
@@ -31,71 +40,66 @@ function displayPage(data) {
 function isPrevious(pageNumber) {
     getAllCustomerPage(pageNumber-1)
 }
-
 //hàm tiến page
 function isNext(pageNumber) {
     getAllCustomerPage(pageNumber+1)
 }
-// hiện modal tìm kiếm
 
 
-
-function getAllProductsPage(page) {
+function dataSs() {
+                    for (let i = 0; i < data.content.length; i++) {
+                      context += `
+                    	<div class="product-item men">
+							<div class="product product_filter">
+								<div class="product_image">
+									<img src="${data.content[i].image}" alt="">
+								</div>
+								<div class="favorite"></div>
+								<div class="product_bubble product_bubble_left product_bubble_green d-flex flex-column align-items-center">${data.content[i].description}</div>
+								<div class="product_info">
+									<h6 class="product_name"><a href="single.html">${data.content[i].name}</a></h6>
+									<div class="product_price">${data.content[i].price}</div>
+								</div>
+							</div>
+							<div class="red_button add_to_cart_button"><a href="#">add to cart</a></div>
+						</div>`
+    }
+    document.getElementById("products-all").innerHTML = context;
+}
+function displayProducts() {
     $.ajax({
         headers: {
             Authorization: "Bearer " + sessionStorage.getItem("token"),
         },
-        url: "http://localhost:8080/products/page?page=" + page + "&size=5",
-        type: "GET",
-        dataType: "json",
-        success: function (data) {
-            displayProducts(data.content)
-            displayPage(data)
-            displayNewProducts(data.content)
-            displayClothes(data.content)
-            //điều kiện bỏ nút previous
-            if (data.pageable.pageNumber === 0) {
-                document.getElementById("backup").hidden = true
-            }
-            //điều kiện bỏ nút next
-            if (data.pageable.pageNumber + 1 === data.totalPages) {
-                document.getElementById("next").hidden = true
-            }
-        }
-    });
-}function displayProducts() {
-    displayUser()
-    $.ajax({
-        headers: {
-            Authorization: "Bearer " + sessionStorage.getItem("token"),
-        },
-        url: "http://localhost:8080/home/products?size=5",
+        url: "http://localhost:8080/home/products",
         type: "GET",
         success: function (data) {
-            console.log()
             let context = ""
             for (let i = 0; i < data.content.length; i++) {
                 context += `
-                    <div class="product-item women">
-                                    <div class="product product_filter">
-                                        <div class="product_image">
-                                            <img src=" ${data.content[i].image} " alt="">
-                                        </div>
-                                        <div class="favorite"></div>
-                                        <div class="product_bubble product_bubble_left product_bubble_green d-flex flex-column align-items-center"> 
-                                            <span>new</span></div>
-                                        <div class="product_info">
-                                            <h6 class="product_name"><a href="single.html">${data.content[i].name}</a></h6>
-                                            <div class="product_price">${data.content[i].price}</div>
-                                        </div>
-                                    </div>
-                                    <div class="red_button add_to_cart_button"><a href="#" onclick="addToCart(${data.content[i].id})">add to cart</a></div>
-                                </div>`
+                    	<div class="product-item men">
+							<div class="product discount product_filter">
+								<div class="product_image">
+								<a href="single12.html"><img src="${data.content[i].imagePath}" alt=""></a>	
+								</div>
+								<div class="favorite"></div>
+								<div class="product_bubble product_bubble_left product_bubble_green d-flex flex-column align-items-center">${data.content[i].description}</div>
+								<div class="product_info">
+									<h6 class="product_name"><a href="single.html">${data.content[i].name}</a></h6>
+									<div class="product_price">${data.content[i].price}</div>
+								</div>
+							</div>
+							<div class="red_button add_to_cart_button"><a href="#">add to cart</a></div>
+						</div>
+`
             }
             document.getElementById("products-all").innerHTML = context;
+            displayPage(data)
         }
+
     })
 }
+
 function displayClothes() {
     $.ajax({
         headers: {
@@ -104,30 +108,9 @@ function displayClothes() {
         url: "http://localhost:8080/home/cate-names-shirt",
         type: "GET",
         success: function (data) {
-            console.log()
-            let context = ""
-            for (let i = 0; i < data.content.length; i++) {
-                context += `
-                    <div class="product-item women">
-                                    <div class="product product_filter">
-                                        <div class="product_image">
-                                            <img src=" ${data.content[i].image} " alt="">
-                                        </div>
-                                        <div class="favorite"></div>
-                                        <div class="product_bubble product_bubble_left product_bubble_green d-flex flex-column align-items-center"> 
-                                            <span>new</span></div>
-                                        <div class="product_info">
-                                            <h6 class="product_name"><a href="single.html">${data.content[i].name}</a></h6>
-                                            <div class="product_price">${data.content[i].price}</div>
-                                        </div>
-                                    </div>
-                                    <div class="red_button add_to_cart_button"><a href="#">add to cart</a></div>
-                                </div>`
-            }
-            document.getElementById("products-all").innerHTML = context;
+            dataSs()
         }
     })
-
 }
 function displayNewProducts() {
     $.ajax({
@@ -137,53 +120,41 @@ function displayNewProducts() {
         url: "http://localhost:8080/home/cate?size=4",
         type: "GET",
         success: function (data) {
-            console.log()
-            let context = ""
-            for (let i = 0; i < data.content.length; i++) {
-                context += `
-                    <div class="product-item women">
-                                    <div class="product product_filter">
-                                        <div class="product_image">
-                                            <img src=" ${data.content[i].image} " alt="">
-                                        </div>
-                                        <div class="favorite"></div>
-                                        <div class="product_bubble product_bubble_left product_bubble_green d-flex flex-column align-items-center"> 
-                                            <span>new</span></div>
-                                        <div class="product_info">
-                                            <h6 class="product_name"><a href="single.html">${data.content[i].name}</a></h6>
-                                            <div class="product_price">${data.content[i].price}</div>
-                                        </div>
-                                    </div>
-                                    <div class="red_button add_to_cart_button"><a href="#" onclick="addToCart(${data.content[i].id})">add to cart</a></div>
-                                </div>`
-            }
-            document.getElementById("products-all").innerHTML = context;
+            dataSs()
         }
     })
 }
 
-function checkOutNumber(){
-    $.ajax({
-        headers: {
-            Authorization: "Bearer " + sessionStorage.getItem("token"),
-        },
-        url: "http://localhost:8080/home/getCheckOutItem",
-        type: "GET",
-        success: function (data) {
-            $("#checkout_items").val(data)
-        }
-    })
-
+function checkOutNumberAdd(){
+    let quantity = sessionStorage.getItem("checkOut")
+    if (quantity === null){
+        sessionStorage.setItem("checkOut", "1")
+    }else {
+        let update = parseInt(quantity) + 1
+        sessionStorage.setItem("checkOut", update.toString())
+    }
+    $("#checkout_items").val(sessionStorage.getItem("checkOut"))
 }
-function addToCart(id){
+function checkOutNumberSub(){
+    let quantity = sessionStorage.getItem("checkOut")
+    if (quantity === null ){
+        sessionStorage.setItem("checkOut","0")
+    }else {
+        let update = parseInt(quantity) - 1
+        sessionStorage.setItem("checkOut", update.toString())
+    }
+    $("#checkout_items").val(sessionStorage.getItem("checkOut"))
+}
+function addToCart(id) {
     $.ajax({
         headers: {
             Authorization: "Bearer " + sessionStorage.getItem("token"),
         },
-        url: "http://localhost:8080/home/addToCart/"+id,
+        url: "http://localhost:8080/home/addToCart/" + id,
         type: "GET",
+        dataType: "json",
         success: function (data) {
-            if (data!=null){
+            if (data.user != null) {
                 checkOutNumberAdd()
                 getAllProductsPage(0)
             }

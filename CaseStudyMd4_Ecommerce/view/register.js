@@ -9,12 +9,33 @@ $(document).ready(function(){
     });
 });
 
+function validatePhoneNumber(phone) {
+    const phonePattern = /^0[0-9]{8,9}$/;
+    return phonePattern.test(phone);
+}
 function register() {
     let flag = true;
     let username = $("#name").val();
+    let email = $("#email").val();
+    let phone = $("#phone").val();
     let password = $("#pass").val();
     let rePass   = $("#re_pass").val();
     let roleId   = $("#vehicle1").val();
+
+    // kiểm tra email có hợp lệ hay không
+    if (!validateEmail(email)) {
+        alert("Email không hợp lệ.");
+        flag = false;
+    }
+    function validateEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
+    // kiểm tra số điện thoại có hợp lệ hay không
+    if (!validatePhoneNumber(phone)) {
+        alert("Số điện thoại không hợp lệ.")
+        flag = false;
+    }
 
     // kiểm tra mật khẩu mới có trống hay không
     if (password === "") {
@@ -34,11 +55,20 @@ function register() {
         flag = false;
     }
 
+    let roles = null;
+    if ($("#role1").prop("checked") && $("#role2").prop("checked")) {
+        roleId = 2;
+    } else if ($("#role1").prop("checked") || $("#role2").prop("checked")) {
+        roleId = 3;
+    }
+
     if (flag) {
         let user = {
             "username": username,
+            "email": email,
+            "phone": phone,
             "password": password,
-            "roles": [{
+            "roleIdStr": [{
                 "id": Number(roleId)
             }]
         };
@@ -63,3 +93,5 @@ function register() {
 
     event.preventDefault();
 }
+
+
